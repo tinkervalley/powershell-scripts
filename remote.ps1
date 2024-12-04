@@ -20,7 +20,7 @@ function Install-RustDesk {
     # Download the installer using BITS
     Start-BitsTransfer -Source $url -Destination $installerPath
 
-    Write-Host "Running RustDesk installer silently..."
+    Write-Host "Installing RustDesk..."
     
     # Run the installer silently with the --silent-install flag
     Start-Process -FilePath $installerPath -ArgumentList '--silent-install' -Verb runAs -Wait
@@ -30,6 +30,15 @@ function Install-RustDesk {
 
     # Optionally, remove the installer after installation
     Remove-Item -Path $installerPath -Force
+
+    # Run RustDesk using the shortcut
+    $shortcutPath = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\RustDesk\RustDesk.lnk"
+    if (Test-Path $shortcutPath) {
+        Write-Host "Launching RustDesk..."
+        Start-Process $shortcutPath
+    } else {
+        Write-Host "RustDesk shortcut not found at: $shortcutPath"
+    }
 }
 
 # Run the installation function
