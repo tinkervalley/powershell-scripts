@@ -29,9 +29,20 @@ function Download-And-Execute {
 
     # Check if the download was successful
     if ($bitsJob.JobState -eq 'Transferred') {
-        Write-Host "Download complete. Executing $fileName..."
-        # Execute the downloaded file
-        Start-Process -FilePath $fileName -Wait
+        Write-Host "Download complete."
+        
+        # Check if the file exists and execute it
+        if (Test-Path $fileName) {
+            Write-Host "Executing $fileName..."
+            try {
+                # Execute the downloaded file and wait for it to finish
+                Start-Process -FilePath $fileName -Wait
+            } catch {
+                Write-Host "Error occurred while executing the file: $_"
+            }
+        } else {
+            Write-Host "Downloaded file not found: $fileName"
+        }
     } else {
         Write-Host "Download failed. Please try again."
     }
