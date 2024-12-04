@@ -1,10 +1,3 @@
-
-# Function to run external scripts
-Function Run-ExternalScript {
-    param ($scriptUrl)
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
-}
-
 # Main Menu Loop
 do {
     Clear-Host
@@ -25,42 +18,42 @@ do {
         1 {
             # Install Office
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/office-install.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         2 {
             # Run Activation Tools
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/activation-tools.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         3 {
             # Install Browsers
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/browsers.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         4 {
             # File Recovery
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/file-recovery.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         5 {
             # Declutter Windows
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/declutter-windows.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         6 {
             # Anti-Malware Tools
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/antimalware.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         7 {
             # Windows Easy Transfer
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/windows-easy-transfer.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         8 {
             # Other Software
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/other-software.ps1"
-            Run-ExternalScript -scriptUrl $scriptUrl
+            Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         9 {
             # Exit the script
