@@ -2,17 +2,7 @@
 [console]::BackgroundColor = 'White'
 [console]::ForegroundColor = 'Black'
 
-# Get the dimensions of the console window
-$width = [console]::WindowWidth
-$height = [console]::WindowHeight
-
-# Calculate the center position
-$centerX = [math]::Floor($width / 2)
-$centerY = [math]::Floor($height / 2)
-
-# Clear the screen and set cursor to center
-Clear-Host
-[console]::SetCursorPosition($centerX - 10, $centerY - 1)
+$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size (120, 40)
 
 
 
