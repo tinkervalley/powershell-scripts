@@ -4,8 +4,8 @@
 Write-Host "Loading main menu..." -BackgroundColor Blue -ForegroundColor White
 Start-Sleep -Seconds 2
 
-# Close the current window
-exit
 
 # Execute the remote script in a new PowerShell window with 'runas' and customize window appearance
 Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm https://raw.githubusercontent.com/tinkervalley/powershell-scripts/main/tools/start.ps1 | iex`"" -Verb RunAs -WindowStyle Normal
+
+exit
