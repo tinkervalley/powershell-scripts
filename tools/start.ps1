@@ -2,7 +2,7 @@
 [console]::BackgroundColor = 'White'
 [console]::ForegroundColor = 'Black'
 
-$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size (120, 40)
+$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size (60, 20)
 
 
 
