@@ -11,20 +11,30 @@ $O2024Link = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/
 $O365File = "O365ProPlus64.exe"
 $O2024File = "O2024ProPlus64.exe"
 
-# Function to download and execute the file
+# Function to download and execute the file using BITS
 function Download-And-Execute {
     param (
         [string]$url,
         [string]$fileName
     )
 
-    # Download the file
-    Write-Host "Downloading $fileName..."
-    Invoke-WebRequest -Uri $url -OutFile $fileName
+    # Initialize BITS transfer job
+    $bitsJob = Start-BitsTransfer -Source $url -Destination $fileName
 
-    # Execute the downloaded file
-    Write-Host "Executing $fileName..."
-    Start-Process -FilePath $fileName
+    # Wait for download to complete
+    Write-Host "Downloading $fileName using BITS..."
+    while ($bitsJob.JobState -eq 'Transferring') {
+        Start-Sleep -Seconds 1
+    }
+
+    # Check if the download was successful
+    if ($bitsJob.JobState -eq 'Transferred') {
+        Write-Host "Download complete. Executing $fileName..."
+        # Execute the downloaded file
+        Start-Process -FilePath $fileName -Wait
+    } else {
+        Write-Host "Download failed. Please try again."
+    }
 
     # Close the PowerShell window
     exit
