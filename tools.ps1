@@ -1,28 +1,9 @@
-# Function to check if script is running with elevated privileges
-Function Test-Admin {
-    [bool]$isAdmin = $false
-    try {
-        # Try to access a protected folder
-        $null = (New-Object -ComObject Shell.Application).Namespace('C:\Windows\System32')
-        $isAdmin = $true
-    } catch {
-        $isAdmin = $false
-    }
-    return $isAdmin
-}
-
-# Function to relaunch the script as Administrator if needed
-Function Start-Elevated {
-    # Get the full script path
-    $scriptPath = $MyInvocation.MyCommand.Path
-    # Relaunch the script with elevated privileges
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { $scriptPath }" -Verb RunAs
+# Check if the script is running as Administrator
+If (-NOT [System.Security.Principal.WindowsIdentity]::GetCurrent().IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    # If not, relaunch the script as Administrator
+    Write-Host "Requesting administrator privileges..."
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { $MyInvocation.MyCommand.Path }" -Verb RunAs
     Exit
-}
-
-# Request elevation at the start if not already running with elevated privileges
-If (-NOT (Test-Admin)) {
-    Start-Elevated
 }
 
 # Function to run external scripts with elevation
