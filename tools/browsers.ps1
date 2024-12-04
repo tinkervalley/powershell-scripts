@@ -5,16 +5,30 @@ function Download-Chrome {
     $chromeUrl = "https://dl.google.com/chrome/install/latest/chrome_installer.exe"
     $chromeInstaller = "$env:temp\chrome_installer.exe"
     
-    # Download with progress bar
-    $progress = New-Object -TypeName PSCustomObject -Property @{PercentComplete = 0; Status = "Downloading..."}
-    Invoke-WebRequest -Uri $chromeUrl -OutFile $chromeInstaller -ProgressVariable progress
+    # Initialize progress variables
+    $client = New-Object System.Net.WebClient
+    $client.DownloadFileCompleted += {
+        Write-Host "Download complete!"
+    }
 
-    # Monitor the progress
-    while ($progress.PercentComplete -lt 100) {
-        Write-Progress -PercentComplete $progress.PercentComplete -Status $progress.Status -Activity "Downloading Google Chrome"
+    # Get the file size to calculate progress
+    $fileSize = $client.OpenRead($chromeUrl).Length
+    $downloaded = 0
+
+    # Start downloading the file in chunks and track progress
+    $client.DownloadProgressChanged += {
+        $downloaded = $_.BytesReceived
+        $percentComplete = ($downloaded / $fileSize) * 100
+        Write-Progress -PercentComplete $percentComplete -Status "Downloading Google Chrome..." -Activity "Downloading"
+    }
+
+    $client.DownloadFileAsync($chromeUrl, $chromeInstaller)
+
+    # Wait for the download to complete
+    while ($client.IsBusy) {
         Start-Sleep -Seconds 1
     }
-    
+
     Write-Host "Installing Google Chrome..."
     Start-Process -FilePath $chromeInstaller -Args "/silent /install" -Wait
     Write-Host "Google Chrome has been installed."
@@ -25,13 +39,27 @@ function Download-Firefox {
     $firefoxUrl = "https://download.mozilla.org/?product=firefox-latest&os=win&lang=en-US"
     $firefoxInstaller = "$env:temp\firefox_installer.exe"
     
-    # Download with progress bar
-    $progress = New-Object -TypeName PSCustomObject -Property @{PercentComplete = 0; Status = "Downloading..."}
-    Invoke-WebRequest -Uri $firefoxUrl -OutFile $firefoxInstaller -ProgressVariable progress
+    # Initialize progress variables
+    $client = New-Object System.Net.WebClient
+    $client.DownloadFileCompleted += {
+        Write-Host "Download complete!"
+    }
 
-    # Monitor the progress
-    while ($progress.PercentComplete -lt 100) {
-        Write-Progress -PercentComplete $progress.PercentComplete -Status $progress.Status -Activity "Downloading Mozilla Firefox"
+    # Get the file size to calculate progress
+    $fileSize = $client.OpenRead($firefoxUrl).Length
+    $downloaded = 0
+
+    # Start downloading the file in chunks and track progress
+    $client.DownloadProgressChanged += {
+        $downloaded = $_.BytesReceived
+        $percentComplete = ($downloaded / $fileSize) * 100
+        Write-Progress -PercentComplete $percentComplete -Status "Downloading Mozilla Firefox..." -Activity "Downloading"
+    }
+
+    $client.DownloadFileAsync($firefoxUrl, $firefoxInstaller)
+
+    # Wait for the download to complete
+    while ($client.IsBusy) {
         Start-Sleep -Seconds 1
     }
 
