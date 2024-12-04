@@ -1,15 +1,28 @@
 # Check if the script is running as Administrator
-If (-NOT [System.Security.Principal.WindowsIdentity]::GetCurrent().IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    # If not, relaunch the script as Administrator
-    Write-Host "Requesting administrator privileges..."
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { $MyInvocation.MyCommand.Path }" -Verb RunAs
+Try {
+    If (-NOT [System.Security.Principal.WindowsIdentity]::GetCurrent().IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        # If not, relaunch the script as Administrator
+        Write-Host "Requesting administrator privileges..."
+        Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { $MyInvocation.MyCommand.Path }" -Verb RunAs
+        Exit
+    }
+}
+Catch {
+    Write-Host "Error checking administrator privileges: $_"
+    Read-Host "Press Enter to exit"
     Exit
 }
 
 # Function to run external scripts with elevation
 Function Run-ExternalScript {
     param ($scriptUrl)
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
+    Try {
+        Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
+    }
+    Catch {
+        Write-Host "Error running script $scriptUrl: $_"
+        Read-Host "Press Enter to continue"
+    }
 }
 
 # Main Menu Loop
