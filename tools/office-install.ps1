@@ -3,48 +3,39 @@ $choice = Read-Host "Select the version to download:
 1. Microsoft 365 Pro Plus x64
 2. Microsoft Office 2024 Pro Plus x64"
 
-# Set download links
+# Set download URLs
 $O365Link = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/office/O365ProPlus64.exe"
 $O2024Link = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/office/O2024ProPlus64.exe"
-
-# Set file names
-$O365File = "O365ProPlus64.exe"
-$O2024File = "O2024ProPlus64.exe"
 
 # Function to download and execute the file using BITS
 function Download-And-Execute {
     param (
-        [string]$url,
-        [string]$fileName
+        [string]$url
     )
 
-    # Initialize BITS transfer job
-    $bitsJob = Start-BitsTransfer -Source $url -Destination $fileName
+    try {
+        # Initialize BITS transfer job
+        Write-Host "Starting download from: $url"
+        $bitsJob = Start-BitsTransfer -Source $url -Destination "$env:TEMP\office_installer.exe" -Asynchronous
 
-    # Wait for download to complete
-    Write-Host "Downloading $fileName using BITS..."
-    while ($bitsJob.JobState -eq 'Transferring') {
-        Start-Sleep -Seconds 1
-    }
-
-    # Check if the download was successful
-    if ($bitsJob.JobState -eq 'Transferred') {
-        Write-Host "Download complete."
-        
-        # Check if the file exists and execute it
-        if (Test-Path $fileName) {
-            Write-Host "Executing $fileName..."
-            try {
-                # Execute the downloaded file and wait for it to finish
-                Start-Process -FilePath $fileName -Wait
-            } catch {
-                Write-Host "Error occurred while executing the file: $_"
-            }
-        } else {
-            Write-Host "Downloaded file not found: $fileName"
+        # Wait for download to complete
+        Write-Host "Downloading... Please wait."
+        while ($bitsJob.JobState -eq 'Transferring') {
+            Start-Sleep -Seconds 1
         }
-    } else {
-        Write-Host "Download failed. Please try again."
+
+        # Log the job state
+        Write-Host "Download complete. Job state: $($bitsJob.JobState)"
+        
+        # Execute the downloaded file
+        if ($bitsJob.JobState -eq 'Transferred') {
+            Write-Host "Executing the downloaded installer..."
+            Start-Process -FilePath "$env:TEMP\office_installer.exe" -Wait
+        } else {
+            Write-Host "Download failed. Job state: $($bitsJob.JobState)"
+        }
+    } catch {
+        Write-Host "Error during download: $_"
     }
 
     # Close the PowerShell window
@@ -54,10 +45,10 @@ function Download-And-Execute {
 # Perform the action based on user's choice
 switch ($choice) {
     1 {
-        Download-And-Execute -url $O365Link -fileName $O365File
+        Download-And-Execute -url $O365Link
     }
     2 {
-        Download-And-Execute -url $O2024Link -fileName $O2024File
+        Download-And-Execute -url $O2024Link
     }
     default {
         Write-Host "Invalid choice. Please run the script again and select a valid option."
