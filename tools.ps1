@@ -1,5 +1,6 @@
-# Request elevation if not already elevated
-If (-NOT (Test-Process -Name "powershell" -Property "IsElevated")) {
+# Check if the script is running as Administrator
+If (-NOT [System.Security.Principal.WindowsIdentity]::GetCurrent().IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    # Relaunch the script with Administrator privileges
     Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { $MyInvocation.MyCommand.Path }" -Verb RunAs
     Exit
 }
