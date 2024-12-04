@@ -7,5 +7,10 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 }
 
 # Script is elevated, now run the main script
-$mainScriptPath = ".\tools.ps1"  # Adjust path as needed
-Start-Process powershell -ArgumentList "-NoExit -NoProfile -ExecutionPolicy Bypass -File `"$mainScriptPath`"" -Verb RunAs
+$mainScriptPath = ".\tools.ps1"  # Ensure the path is correct for your environment
+if (Test-Path $mainScriptPath) {
+    Start-Process powershell -ArgumentList "-NoExit -NoProfile -ExecutionPolicy Bypass -File `"$mainScriptPath`""
+} else {
+    Write-Host "Could not find tools.ps1 at $mainScriptPath" -ForegroundColor Red
+    Read-Host "Press Enter to exit"
+}
