@@ -1,4 +1,15 @@
 # PowerShell script to download with BITS (Background Intelligent Transfer Service)
+# and show a Windows notification after completion
+
+function Show-Notification {
+    param (
+        [string]$title,
+        [string]$message
+    )
+    # Create a new toast notification using Windows Script Host
+    $shell = New-Object -ComObject WScript.Shell
+    $shell.Popup($message, 5, $title, 0x40)  # 0x40 = Information icon
+}
 
 function Download-Chrome {
     Write-Host "Downloading Google Chrome..."
@@ -10,6 +21,9 @@ function Download-Chrome {
     Write-Host "Installing Google Chrome..."
     Start-Process -FilePath $chromeInstaller -Args "/silent /install" -Wait
     Write-Host "Google Chrome has been installed."
+
+    Show-Notification -title "Installation Complete" -message "Google Chrome has been successfully installed!"
+    Exit
 }
 
 function Download-Firefox {
@@ -22,6 +36,9 @@ function Download-Firefox {
     Write-Host "Installing Mozilla Firefox..."
     Start-Process -FilePath $firefoxInstaller -Args "/silent" -Wait
     Write-Host "Mozilla Firefox has been installed."
+
+    Show-Notification -title "Installation Complete" -message "Mozilla Firefox has been successfully installed!"
+    Exit
 }
 
 # Function to show the menu and call respective download functions
@@ -47,6 +64,7 @@ function Install-Browser {
         }
         3 {
             Write-Host "Exiting the script."
+            Exit
             break
         }
         default {
