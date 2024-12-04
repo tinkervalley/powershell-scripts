@@ -14,12 +14,12 @@ do {
     Write-Host "1. Install Office"
     Write-Host "2. Run Activation Tools"
     Write-Host "3. Install Browsers"
-    Write-Host "4. File Recovery"
-    Write-Host "5. Declutter Windows"
-    Write-Host "6. Anti-Malware Tools"
-    Write-Host "7. Windows Easy Transfer"
-    Write-Host "8. Other Software"
-    Write-Host "9. Exit"
+    #Write-Host "4. File Recovery"
+    #Write-Host "5. Declutter Windows"
+    #Write-Host "6. Anti-Malware Tools"
+    #Write-Host "7. Windows Easy Transfer"
+    #Write-Host "8. Other Software"
+    #Write-Host "9. Exit"
     
     $choice = Read-Host "Please enter a number"
 
