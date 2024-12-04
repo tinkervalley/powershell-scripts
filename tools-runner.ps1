@@ -1,23 +1,6 @@
-# Check if the script is running with Administrator privileges
-if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    # Relaunch the script as Administrator in the same PowerShell session
-    Write-Host "Requesting elevated privileges..." -ForegroundColor Yellow
-    Start-Process -FilePath "powershell" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"$PSCommandPath`"" -Verb RunAs
-    Exit
-}
+# PowerShell script to load the main menu and run a remote script as admin
+Write-Host "Loading main menu..." -BackgroundColor Blue -ForegroundColor White
+Start-Sleep -Seconds 2
 
-# Script is elevated
-Write-Host "Running with elevated privileges..." -ForegroundColor Green
-
-# Run the remote script
-try {
-    Write-Host "Running tools script..." -ForegroundColor Green
-    irm https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools.ps1 | iex
-} catch {
-    Write-Host "Failed to download or execute tools.ps1" -ForegroundColor Red
-    Write-Host $_.Exception.Message -ForegroundColor Yellow
-}
-
-# Pause to allow viewing output (optional)
-Write-Host "Script execution complete. Press Enter to exit." -ForegroundColor Cyan
-Read-Host
+# Execute the remote script with 'runas' to ensure it's run as admin
+Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm https://raw.githubusercontent.com/tinkervalley/powershell-scripts/main/tools.ps1 | iex`"" -Verb RunAs
