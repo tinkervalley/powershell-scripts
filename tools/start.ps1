@@ -14,6 +14,7 @@ do {
     Write-Host "1. Install Office"
     Write-Host "2. Run Activation Tools"
     Write-Host "3. Install Browsers"
+    Write-Host "4. Install Remote Agent"
     #Write-Host "4. File Recovery"
     #Write-Host "5. Declutter Windows"
     #Write-Host "6. Anti-Malware Tools"
@@ -40,10 +41,15 @@ do {
             Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         4 {
-            # File Recovery
-            $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/file-recovery.ps1"
+            # Remote Agent
+            $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/remote.ps1"
             Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
+        #4 {
+        #    # File Recovery
+        #    $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/file-recovery.ps1"
+        #    Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
+        #}
         5 {
             # Declutter Windows
             $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/declutter-windows.ps1"
