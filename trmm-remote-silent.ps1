@@ -13,7 +13,7 @@ Write-Host "Download complete. Installing TacticalAgent..."
 Start-Process -FilePath $downloadPath -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES" -Wait
 
 # Wait 5 seconds before running the next command (simulating 'ping' delay)
-Start-Sleep -Seconds 5
+Start-Sleep -Seconds 10
 
 # Run the final command to install TacticalAgent using Start-Process
 $installCommand = "C:\Program Files\TacticalAgent\tacticalrmm.exe"
