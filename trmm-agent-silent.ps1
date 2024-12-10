@@ -1,6 +1,7 @@
 # Check if the script is running with administrator privileges
-if (-NOT (Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA") -or !(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\System")) {
-    $arguments = "-NoProfile -ExecutionPolicy Bypass -File $PSCommandPath"
+if (-NOT [System.Security.Principal.WindowsIdentity]::GetCurrent().IsSystem) {
+    # Relaunch the script with admin privileges
+    $arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"iex ((New-Object System.Net.WebClient).DownloadString('URL_TO_YOUR_SCRIPT'))`""
     Start-Process powershell -Verb runAs -ArgumentList $arguments
     exit
 }
