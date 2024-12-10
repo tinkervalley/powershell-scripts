@@ -15,8 +15,10 @@ Start-Process -FilePath $downloadPath -ArgumentList "/VERYSILENT /SUPPRESSMSGBOX
 # Wait 5 seconds before running the next command (simulating 'ping' delay)
 Start-Sleep -Seconds 5
 
-# Run the final command to install TacticalAgent
-$installCommand = '"C:\Program Files\TacticalAgent\tacticalrmm.exe" -m install --api https://api.tinkervalley.ca --client-id 3 --site-id 3 --agent-type workstation --auth 5dc6b4395afc11b841b95aeb9b950e36d5622e2420af97a3171f37ffd5914d45'
-Invoke-Expression -Command $installCommand
+# Run the final command to install TacticalAgent using Start-Process
+$installCommand = "C:\Program Files\TacticalAgent\tacticalrmm.exe"
+$arguments = "-m", "install", "--api", "https://api.tinkervalley.ca", "--client-id", "3", "--site-id", "3", "--agent-type", "workstation", "--auth", "5dc6b4395afc11b841b95aeb9b950e36d5622e2420af97a3171f37ffd5914d45"
+
+Start-Process -FilePath $installCommand -ArgumentList $arguments -Wait
 
 Write-Host "Installation completed."
