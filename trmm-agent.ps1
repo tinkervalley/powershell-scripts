@@ -1,7 +1,12 @@
 # Define the download URL and file path
 $url = "https://github.com/amidaware/rmmagent/releases/download/v2.8.0/tacticalagent-v2.8.0-windows-amd64.exe"
-# $downloadPath = "$env:TEMP\tacticalagent-v2.8.0-windows-amd64.exe"
-$downloadPath = [System.IO.Path]::GetTempPath()
+
+# Get the temporary directory and define the file name
+$tempDir = [System.IO.Path]::GetTempPath()
+$fileName = "trmm-agent-tinkervalley.exe"
+
+# Combine the temp directory with the file name to create the full download path
+$downloadPath = Join-Path -Path $tempDir -ChildPath $fileName
 
 # Use BITS to download the file
 Write-Host "Downloading the file..."
