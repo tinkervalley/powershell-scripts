@@ -1,7 +1,7 @@
 # Check if the script is running with administrator privileges
 if (-NOT [System.Security.Principal.WindowsIdentity]::GetCurrent().IsSystem) {
     # Relaunch the script with admin privileges
-    $arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/trmm-agent-silent.ps1'))`""
+    $arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/install-trmm-agent.ps1'))`""
     Start-Process powershell -Verb runAs -ArgumentList $arguments
     exit
 }
