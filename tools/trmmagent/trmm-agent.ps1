@@ -11,7 +11,7 @@ if (Test-Path -Path $uninstallerPath) {
 }
 
 # Define the download URL
-$url = "https://github.com/amidaware/rmmagent/releases/download/v2.8.0/tacticalagent-v2.8.0-windows-amd64.exe"
+$url = "https://github.com/amidaware/rmmagent/releases/download/v2.9.0/tacticalagent-v2.9.0-windows-amd64.exe"
 
 # Get the temporary directory and define the file name
 $tempDir = [System.IO.Path]::GetTempPath()
