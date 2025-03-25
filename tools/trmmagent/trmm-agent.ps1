@@ -20,15 +20,18 @@ $fileName = "trmm-agent-tinkervalley.exe"
 # Combine the temp directory with the file name to create the full download path
 $downloadPath = Join-Path -Path $tempDir -ChildPath $fileName
 
-# Output the download path for debugging
-# Write-Host "Download path: $downloadPath"
-
-# Use BITS to download the file
+# Download the file using Invoke-WebRequest
 Write-Host "Downloading the file..."
-Start-BitsTransfer -Source $url -Destination $downloadPath
+try {
+    Invoke-WebRequest -Uri $url -OutFile $downloadPath
+    Write-Host "Download completed successfully."
+} catch {
+    Write-Host "Error downloading the file: $_"
+    exit 1
+}
 
 # Continue with the installation process
-Write-Host "Download complete. Installing TacticalAgent..."
+Write-Host "Installing TacticalAgent..."
 Start-Process -FilePath $downloadPath -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES" -Wait
 
 # Wait 10 seconds
