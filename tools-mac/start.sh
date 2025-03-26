@@ -34,9 +34,7 @@ handle_selection() {
   esac
 }
 
-# Main script loop
-while true; do
-  display_menu
-  read -p "Enter your choice: " choice
-  handle_selection "$choice"
-done
+# Main script
+display_menu
+read -p "Enter your choice: " choice
+handle_selection "$choice"
