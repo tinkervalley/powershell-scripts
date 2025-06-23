@@ -6,6 +6,6 @@ Start-Sleep -Seconds 2
 
 
 # Execute the remote script in a new PowerShell window with 'runas' and customize window appearance
-Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/main/tools/trmmagent/trmm-agent.ps1" | iex`"" -Verb RunAs -WindowStyle Normal
+Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/main/tools/trmmagent/trmm-agent-fixed.ps1" | iex`"" -Verb RunAs -WindowStyle Normal
 
 exit
