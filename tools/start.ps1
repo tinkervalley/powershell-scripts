@@ -42,7 +42,7 @@ do {
         }
         4 {
             # Remote Agent
-            $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/trmmagent/trmm-agent-loader.ps1"
+            $scriptUrl = "https://raw.githubusercontent.com/tinkervalley/powershell-scripts/refs/heads/main/tools/trmmagent/trmm-agent.ps1"
             Start-Process powershell -ArgumentList "-NoExit", "-Command", "& { irm $scriptUrl | iex }" -Verb RunAs
         }
         #4 {
